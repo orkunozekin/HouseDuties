@@ -28,7 +28,7 @@ const RegistrationForm = () => {
   // }, [])
 
   const getAllEmails = () => {
-    axios.get(`${config.API_ENDPOINT}/api/getAllEmails`)
+    axios.get(`${config.api}/getAllEmails`)
       .then((response) => {
         setEmails(response.data)
 
