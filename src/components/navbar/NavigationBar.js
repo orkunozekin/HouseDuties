@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom"
 import { Navbar, Nav } from 'react-bootstrap'
 import axios from 'axios'
 
-import TokenService from '../../TokenService'
+import TokenService from '../../services/TokenService'
 
 import './NavigationBar.scss'
 

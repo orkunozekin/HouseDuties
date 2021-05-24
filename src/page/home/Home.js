@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import { Link } from 'react-router-dom'
 
-import TokenService from '../../TokenService'
+import TokenService from '../../services/TokenService'
 
 const Home = () => {
 

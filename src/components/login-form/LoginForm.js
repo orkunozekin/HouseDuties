@@ -6,7 +6,7 @@ import axios from 'axios'
 import config from '../../config'
 import bcrypt from 'bcryptjs'
 
-import TokenService from '../../TokenService'
+import TokenService from '../../services/TokenService'
 
 import './LoginForm.scss'
 
