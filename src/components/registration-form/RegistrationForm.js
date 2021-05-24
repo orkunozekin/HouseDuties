@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 import { Form, Col, Button } from 'react-bootstrap'
 import bcrypt from 'bcryptjs'
 import axios from 'axios'
 
 import ValidationError from './ValidationError/ValidationError'
 import config from '../../config'
+
+import './RegistrationForm.scss'
 
 
 const RegistrationForm = () => {
@@ -39,7 +41,7 @@ const RegistrationForm = () => {
   }
 
 
-  //Update the values of the state properties to trigger at the "onChange" attributes of the inputs.
+  //Update the values of the state properties to trigger at the 'onChange' attributes of the inputs.
   const updateEmail = (email) => {
     setEmail({ value: email, touched: true })
   }
@@ -84,14 +86,14 @@ const RegistrationForm = () => {
   const validateEmail = () => {
     //Check the emails in the DB to ensure emails' uniqueness. 
     if (emails.includes(email.value.trim())) {
-      return "Another account is already registered with this email"
+      return 'Another account is already registered with this email'
     }
   }
 
   const validateFullName = () => {
     const fullNameValue = fullName.value.trim()
     if (!fullNameValue.length) {
-      return "First name is required"
+      return 'First name is required'
     }
   }
 
@@ -99,11 +101,11 @@ const RegistrationForm = () => {
   const validatePassword = () => {
     const userPassword = password.value.trim()
     if (!userPassword.length) {
-      return "Password is required"
+      return 'Password is required'
     } else if (userPassword.length < 6 || userPassword.length > 72) {
-      return "Password must be between 6 and 72 characters long"
+      return 'Password must be between 6 and 72 characters long'
     } else if (!userPassword.match(/[0-9]/)) {
-      return "Password must contain at least one number"
+      return 'Password must contain at least one number'
     }
   }
 
@@ -119,56 +121,56 @@ const RegistrationForm = () => {
 
 
   return (
-    <div>
-      <Form className="registration-form" onSubmit={e => handleSubmit(e)}>
-        <Form.Row>
-          <Form.Group as={Col} controlId="formGridEmail">
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              className="registration-control" type="email"
-              placeholder="Enter email" onChange={e => updateEmail(e.target.value)} />
-            {email.touched && <ValidationError message={validateEmail()} />}
-          </Form.Group>
-
-        </Form.Row>
-
-        <Form.Group controlId="formGridAddress1">
-          <Form.Label>Full Name</Form.Label>
+    <Form className='registration-form' onSubmit={e => handleSubmit(e)}>
+      <Form.Row>
+        <Form.Group as={Col} controlId='formGridEmail'>
+          <Form.Label>Email</Form.Label>
           <Form.Control
-            className="registration-control" type="text"
-            placeholder="First Name" onChange={e => updateFullName(e.target.value)} />
-          {fullName.touched && <ValidationError message={validateFullName()} />}
+            className='registration-control' type='email'
+            placeholder='Enter email' onChange={e => updateEmail(e.target.value)} />
+          {email.touched && <ValidationError message={validateEmail()} />}
         </Form.Group>
 
-        <Form.Group controlId="formGridPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            className="registration-control" type="password"
-            placeholder="Password" onChange={e => updatePassword(e.target.value)} />
-          {password.touched && <ValidationError message={validatePassword()} />}
-        </Form.Group>
+      </Form.Row>
 
-        <Form.Group controlId="formGridPassword">
-          <Form.Label>Validate Password</Form.Label>
-          <Form.Control
-            className="registration-control" type="password"
-            placeholder="Password" onChange={e => updateRepeatPassword(e.target.value)} />
-          {repeatPassword.touched && <ValidationError message={validateRepeatPassword()} />}
-        </Form.Group>
+      <Form.Group controlId='formGridAddress1'>
+        <Form.Label>Full Name</Form.Label>
+        <Form.Control
+          className='registration-control' type='text'
+          placeholder='First Name' onChange={e => updateFullName(e.target.value)} />
+        {fullName.touched && <ValidationError message={validateFullName()} />}
+      </Form.Group>
 
-        <Button className="registration-btn" variant="primary" type="reset">
+      <Form.Group controlId='formGridPassword'>
+        <Form.Label>Password</Form.Label>
+        <Form.Control
+          className='registration-control' type='password'
+          placeholder='Password' onChange={e => updatePassword(e.target.value)} />
+        {password.touched && <ValidationError message={validatePassword()} />}
+      </Form.Group>
+
+      <Form.Group controlId='formGridPassword'>
+        <Form.Label>Validate Password</Form.Label>
+        <Form.Control
+          className='registration-control' type='password'
+          placeholder='Validate Password' onChange={e => updateRepeatPassword(e.target.value)} />
+        {repeatPassword.touched && <ValidationError message={validateRepeatPassword()} />}
+      </Form.Group>
+      <div className='btn-group'>
+        <Button className='registration-btn' variant='primary' type='reset'>
           Cancel
         </Button>
-        <Button className="registration-btn"
-          variant="primary" type="submit"
+        <Button className='registration-btn'
+          variant='primary' type='submit'
           disabled={
             validateEmail() || validateFullName() || validatePassword() || validateRepeatPassword()
           }
         >
           Save
         </Button>
-      </Form>
-    </div>
+      </div>
+
+    </Form>
   )
 }
 

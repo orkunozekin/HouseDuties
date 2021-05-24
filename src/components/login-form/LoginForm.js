@@ -60,7 +60,6 @@ const LoginForm = ({ setLoggedIn, loggedIn }) => {
   return (
     <>
       <Form className="login-form" method="get" onSubmit={(ev) => checkLogin(ev)}>
-        <h2 className="h2">Welcome! Please Login</h2>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control type="email" name="email" value={email.value}

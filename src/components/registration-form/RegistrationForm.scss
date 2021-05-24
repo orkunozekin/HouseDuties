@@ -1,12 +1,16 @@
-.login-form {
-  // height: 100%;
-  margin: 0 auto;
+.registration-form {
+  display: flex;
+  flex-direction: column;
 
+  div.form-row {
+    // margin: 0 auto;
+  }
 
   @media screen and (min-width: 500px) {
     border-radius: 5px;
-    background-color: #f8f8ff;
-    padding: 40px;
+    margin: 0 auto;
+    width: 50vw;
+    padding: 20px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12), 0 2px 2px rgba(0, 0, 0, 0.12), 0 4px 4px rgba(0, 0, 0, 0.12),
       0 8px 8px rgba(0, 0, 0, 0.12), 0 16px 16px rgba(0, 0, 0, 0.12);
   }
