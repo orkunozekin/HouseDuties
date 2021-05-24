@@ -4,8 +4,9 @@ import { Route, Switch } from 'react-router-dom'
 
 import Login from './page/login/Login'
 import Registration from './page/registration/Registration';
+import NavigationBar from './components/navbar/NavigationBar'
 
-import './App.css'
+import './App.scss'
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
 
   return (
     <div className="app">
+      <NavigationBar setLoggedIn={setLoggedIn} loggedIn={loggedIn} />
       <Switch>
         <Route exact path='/'>
           <Login setLoggedIn={setLoggedIn} loggedIn={loggedIn} />

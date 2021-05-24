@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap'
 import { useHistory, Link } from "react-router-dom"
 import axios from 'axios'
 import config from '../../config'
 import bcrypt from 'bcryptjs'
 
 import TokenService from '../../TokenService'
+
+import './LoginForm.scss'
 
 const LoginForm = ({ setLoggedIn, loggedIn }) => {
 
@@ -25,27 +27,21 @@ const LoginForm = ({ setLoggedIn, loggedIn }) => {
     ev.preventDefault()
     axios.post(`${config.api}/user/login?email=${email.value}`)
       .then((response) => {
-        if (response) {
-          if (response.data.userId) {
-            /*check user's password input against the password that comes from the server */
-            /*if they are the same, then   TokenService.saveUser(response.data), if wrong, display an error message  */
-            /* in the home page and navbar, call TokenService.hasAuthToken to make sure user had authorization. */
-            //set the user object to the localStorage for persistence as "user".
-            console.log(bcrypt.compareSync(password.value, response.data.userPassword));
-            if (bcrypt.compareSync(password.value, response.data.userPassword) === true) {
-              TokenService.saveUser(response.data)
-              setLoggedIn(true)
-              //route to the user home if credentials are correct
-              history.push('/home')
-            }
-            else {
-              alert("Incorrect email and password combination")
-            }
-          }
-        } else {
-          console.log("no response");
-        }
+        console.log(response);
+        if (response.data.userId && bcrypt.compareSync(password.value, response.data.userPassword) === true) {
+          /*check user's password input against the password that comes from the server */
+          /*if they are the same, then   TokenService.saveUser(response.data), if wrong, display an error message  */
+          /* in the home page and navbar, call TokenService.hasAuthToken to make sure user had authorization. */
+          //set the user object to the localStorage for persistence as "user".
+          console.log(bcrypt.compareSync(password.value, response.data.userPassword));
 
+          TokenService.saveUser(response.data)
+          setLoggedIn(true)
+          //route to the user home if credentials are correct
+          history.push('/home')
+        } else {
+          alert("Incorrect email and password combination")
+        }
       }, (error) => {
         console.log(error)
       })
@@ -62,9 +58,9 @@ const LoginForm = ({ setLoggedIn, loggedIn }) => {
 
 
   return (
-    <div>
+    <>
       <Form className="login-form" method="get" onSubmit={(ev) => checkLogin(ev)}>
-        <h2 className="login-page-h2">Welcome! Please Login</h2>
+        <h2 className="h2">Welcome! Please Login</h2>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control type="email" name="email" value={email.value}
@@ -82,7 +78,7 @@ const LoginForm = ({ setLoggedIn, loggedIn }) => {
           Submit
         </Button>
       </Form>
-    </div>
+    </>
   )
 }
 

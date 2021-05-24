@@ -1,0 +1,27 @@
+.navbar-wrapper {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 10vh;
+
+  .navbar {
+    position: fixed;
+    background: linear-gradient(176deg, #e65100 0%, #f57c00 90%);
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    #basic-navbar-nav {
+      background: linear-gradient(176deg, #e65100 0%, #f57c00 90%);
+    }
+  }
+
+  @media screen and (min-width: 992px) {
+    #basic-navbar-nav {
+      display: hidden;
+    }
+    .navbar-collapse {
+      display: none;
+    }
+  }
+}
