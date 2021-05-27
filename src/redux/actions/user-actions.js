@@ -1,7 +1,7 @@
-import { userConstants } from '../_constants';
-import { userService } from '../_services';
-import { alertActions } from './';
-import { history } from '../_helpers';
+import { userConstants } from '../constants'
+import { userService } from '../../services/userService'
+import { alertActions } from './'
+import { history } from '../helpers'
 
 export const userActions = {
   login,
@@ -13,20 +13,20 @@ export const userActions = {
 
 function login(username, password, from) {
   return dispatch => {
-    dispatch(request({ username }));
+    dispatch(request({ username }))
 
     userService.login(username, password)
       .then(
         user => {
-          dispatch(success(user));
-          history.push(from);
+          dispatch(success(user))
+          history.push(from)
         },
         error => {
           dispatch(failure(error.toString()));
           dispatch(alertActions.error(error.toString()));
         }
-      );
-  };
+      )
+  }
 
   function request(user) { return { type: userConstants.LOGIN_REQUEST, user } }
   function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
@@ -34,27 +34,27 @@ function login(username, password, from) {
 }
 
 function logout() {
-  userService.logout();
-  return { type: userConstants.LOGOUT };
+  userService.logout()
+  return { type: userConstants.LOGOUT }
 }
 
 function register(user) {
   return dispatch => {
-    dispatch(request(user));
+    dispatch(request(user))
 
     userService.register(user)
       .then(
         user => {
-          dispatch(success());
-          history.push('/login');
-          dispatch(alertActions.success('Registration successful'));
+          dispatch(success())
+          history.push('/login')
+          dispatch(alertActions.success('Registration successful'))
         },
         error => {
-          dispatch(failure(error.toString()));
-          dispatch(alertActions.error(error.toString()));
+          dispatch(failure(error.toString()))
+          dispatch(alertActions.error(error.toString()))
         }
-      );
-  };
+      )
+  }
 
   function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
   function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
@@ -63,7 +63,7 @@ function register(user) {
 
 function getAll() {
   return dispatch => {
-    dispatch(request());
+    dispatch(request())
 
     userService.getAll()
       .then(
@@ -80,7 +80,7 @@ function getAll() {
 // prefixed function name with underscore because delete is a reserved word in javascript
 function _delete(id) {
   return dispatch => {
-    dispatch(request(id));
+    dispatch(request(id))
 
     userService.delete(id)
       .then(

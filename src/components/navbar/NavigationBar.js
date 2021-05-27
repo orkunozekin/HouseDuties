@@ -36,17 +36,17 @@ const NavigationBar = ({ setLoggedIn, loggedIn }) => {
   return (
     <section className="navbar-wrapper">
       <Navbar fixed="top" expand="lg" className="navbar">
-        <Navbar.Brand href="/user/home">HomeDuties</Navbar.Brand>
+        <Navbar.Brand href="/">HomeDuties</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             {loggedIn && user ?
-              <><Nav.Link href="/user/home">Home</Nav.Link>
+              <><Nav.Link href="/">Home</Nav.Link>
                 <Nav.Link href={"/user/profile/" + user.userId}>{user.firstName}</Nav.Link>
                 <Nav.Link href="/user/settings">Edit Profile</Nav.Link>
                 <Nav.Link onClick={() => logout()}>Logout</Nav.Link></>
               :
-              <Nav.Link href="/">Login</Nav.Link>
+              <Nav.Link href="/login">Login</Nav.Link>
             }
           </Nav>
         </Navbar.Collapse>
