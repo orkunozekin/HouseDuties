@@ -41,8 +41,9 @@ const NavigationBar = ({ setLoggedIn, loggedIn }) => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             {loggedIn && user ?
-              <><Nav.Link href="/user/home">Home</Nav.Link>
-                <Nav.Link href={"/user/profile/" + user.userId}>{user.firstName}</Nav.Link>
+              <>
+                <Nav.Link href={"/user/profile/" + user.userId}>{user.userFullName}</Nav.Link>
+                <Nav.Link href="/user/home">Home</Nav.Link>
                 <Nav.Link href="/user/settings">Edit Profile</Nav.Link>
                 <Nav.Link onClick={() => logout()}>Logout</Nav.Link></>
               :

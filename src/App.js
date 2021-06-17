@@ -9,6 +9,7 @@ import Home from './page/home/Home'
 
 
 import './App.scss'
+import NewHousehold from './page/new-household/NewHousehold';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route exact path='/home'>
           <Home loggedIn={loggedIn} />
         </Route>
+        <Route exact path='/newHousehold' component={NewHousehold} />
       </Switch>
     </div>
   );
