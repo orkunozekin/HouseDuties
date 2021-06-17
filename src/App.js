@@ -6,6 +6,8 @@ import NavigationBar from './components/navbar/NavigationBar'
 import Login from './page/login/Login'
 import Registration from './page/registration/Registration';
 import Home from './page/home/Home'
+import SignUp from './components/SignUp'
+import { AuthProvider } from './contexts/AuthContext';
 
 
 import './App.scss'
@@ -19,9 +21,10 @@ function App() {
 
 
   return (
-    <div className='app'>
-      <NavigationBar setLoggedIn={setLoggedIn} loggedIn={loggedIn} />
-      <Switch>
+    <AuthProvider>
+      <div className='app'>
+        <NavigationBar setLoggedIn={setLoggedIn} loggedIn={loggedIn} />
+        {/* <Switch>
         <Route exact path='/'>
           <Login setLoggedIn={setLoggedIn} loggedIn={loggedIn} />
         </Route>
@@ -29,8 +32,10 @@ function App() {
         <Route exact path='/home'>
           <Home loggedIn={loggedIn} />
         </Route>
-      </Switch>
-    </div>
+      </Switch> */}
+        <SignUp />
+      </div>
+    </AuthProvider>
   );
 }
 
