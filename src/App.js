@@ -4,34 +4,29 @@ import { Route, Switch } from 'react-router-dom'
 
 import NavigationBar from './components/navbar/NavigationBar'
 import Login from './page/login/Login'
-import Registration from './page/registration/Registration';
+import Registration from './page/registration/Registration'
 import Home from './page/home/Home'
-
+import PrivateRoute from './utility/PrivateRoute'
 
 import './App.scss'
-import NewHousehold from './page/new-household/NewHousehold';
+import NewHousehold from './page/new-household/NewHousehold'
+import { AuthProvider } from './contexts/AuthContext'
 
 
 function App() {
 
-  //temporary state
-  const [loggedIn, setLoggedIn] = useState(false)
-
-
 
   return (
     <div className='app'>
-      <NavigationBar setLoggedIn={setLoggedIn} loggedIn={loggedIn} />
-      <Switch>
-        <Route exact path='/'>
-          <Login setLoggedIn={setLoggedIn} loggedIn={loggedIn} />
-        </Route>
-        <Route exact path='/registration' component={Registration} />
-        <Route exact path='/home'>
-          <Home loggedIn={loggedIn} />
-        </Route>
-        <Route exact path='/newHousehold' component={NewHousehold} />
-      </Switch>
+      <AuthProvider>
+        <NavigationBar />
+        <Switch>
+          <Route exact path='/' component={Login} />
+          <Route exact path='/registration' component={Registration} />
+          <PrivateRoute exact path='/home' component={Home} />
+          <PrivateRoute exact path='/newHousehold' component={NewHousehold} />
+        </Switch>
+      </AuthProvider>
     </div>
   );
 }

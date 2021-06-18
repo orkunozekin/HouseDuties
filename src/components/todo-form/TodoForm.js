@@ -1,24 +1,26 @@
 import React, { useState } from 'react'
 
 import { Form, Button, Card, Alert } from 'react-bootstrap'
-
-import TokenService from '../../TokenService'
-import config from '../../config'
-
 import axios from 'axios'
 
-const TodoForm = ({ addToDo, setAddingToDo }) => {
+import TokenService from '../../utility/TokenService'
+import config from '../../config'
+
+import './TodoForm.scss'
+
+
+const TodoForm = ({ setAddingToDo }) => {
 
   const [type, setType] = useState('')
   const [name, setName] = useState('')
   const [userAssigned, setUserAssigned] = useState({})
 
-  const handleSubmit = (e) => {
+  const handleSubmitTodo = (e) => {
     e.preventDefault()
 
     axios({
       method: 'post',
-      url: `${config.api}/`,
+      url: `${config.api}/todo/createNewTodo`,
       data: {
         todoName: name,
         todoType: type,
@@ -27,24 +29,26 @@ const TodoForm = ({ addToDo, setAddingToDo }) => {
         toDoCompletionDate: null,
       }
     })
-
-    setAddingToDo(false)
+      .then(response => {
+        console.log(response.data)
+        setAddingToDo(false)
+      })
   }
 
 
   return (
     <Card className='todo-form-card'>
       <Card.Body>
-        <Form onSubmit={addToDo} className='todo-form'>
+        <Form onSubmit={handleSubmitTodo} className='todo-form'>
           <Form.Label>Todo Type</Form.Label>
-          <Form.Control value={type} as='select' required>
+          <Form.Control onChange={setType} value={type.value} as='select' required>
             <option>Laundry</option>
             <option>Cooking</option>
             <option>Trash</option>
             <option>Cleaning</option>
           </Form.Control>
           <Form.Label>Todo Name</Form.Label>
-          <Form.Control value={name} type='text' placeholder='give your household a name' required />
+          <Form.Control onChange={setName} value={name.value} type='text' placeholder='name your todo' required />
         </Form>
       </Card.Body>
     </Card>
