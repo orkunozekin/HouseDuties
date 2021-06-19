@@ -5,30 +5,22 @@ import { Link } from "react-router-dom"
 
 import { useAuth } from '../../contexts/AuthContext'
 
-
 import './LoginForm.scss'
 
 
 const LoginForm = () => {
 
 
-  const { login, error, loading, currentUser } = useAuth()
+  const { login, error, loading, currentUser, setLoading, setError } = useAuth()
 
   //state
-  const [email, setEmail] = useState({ value: '', touched: false })
-  const [password, setPassword] = useState({ value: '', touched: false })
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
-  //Update the values of the state properties to trigger at the "onChange" attributes of the inputs.
-  const updateEmail = (email) => {
-    setEmail({ value: email, touched: true })
-  }
-
-  const updatePassword = (password) => {
-    setPassword({ value: password, touched: true })
-  }
 
   useEffect(() => {
-    currentUser && setEmail({ value: currentUser.userEmail })
+    setLoading(false)
+    setError('')
   }, [])
 
 
@@ -38,15 +30,16 @@ const LoginForm = () => {
         {error && <Alert variant='danger'>{error}</Alert>}
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" name="email" value={email.value}
-            placeholder="Enter email" onChange={e => updateEmail(e.target.value)} />
+          <Form.Control onChange={setEmail} type='email' value={email.value}
+            placeholder="Enter email" required />
         </Form.Group>
 
         <Form.Group controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" name="password" value={password.value}
-            placeholder="Password" onChange={e => updatePassword(e.target.value)} />
+          <Form.Control onChange={setPassword} type="password" value={password.value}
+            placeholder="Password" required />
         </Form.Group>
+
         <Link to="/registration">Don't have an account?</Link><br /> <br />
         <Link to="/email-reset-password">Reset password</Link><br /> <br />
         <Button disabled={loading} variant="warning" type="submit">

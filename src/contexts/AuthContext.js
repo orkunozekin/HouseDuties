@@ -22,8 +22,8 @@ export function AuthProvider({ children }) {
   const history = useHistory()
 
   async function register(ev, email, password, fullName) {
-    console.log(password.target.value);
     ev.preventDefault()
+    setLoading(true)
     let salt = bcrypt.genSaltSync(10)
     let hash = bcrypt.hashSync(password.target.value, salt)
     await axios({
@@ -38,6 +38,7 @@ export function AuthProvider({ children }) {
       .then(response => {
         console.log(response.data)
         setCurrentUser(response.data)
+        setLoading(false)
         history.push('/')
       })
       .catch(error => console.log(error))
@@ -45,14 +46,16 @@ export function AuthProvider({ children }) {
 
   async function login(ev, email, password) {
     ev.preventDefault()
+    console.log(password.target.value);
+    console.log(email.target.value);
     setLoading(true)
     await axios({
       method: 'post',
-      url: `${config.api}/user/login?email=${email.value}`
+      url: `${config.api}/user/login?email=${email.target.value}`
     })
       .then((response) => {
         console.log(response.data);
-        if (response.data.userId && bcrypt.compareSync(password.value, response.data.userPassword) === true) {
+        if (response.data.userId && bcrypt.compareSync(password.target.value, response.data.userPassword) === true) {
           setCurrentUser(response.data)
           TokenService.saveUser(response.data)
           setError('')
@@ -87,6 +90,7 @@ export function AuthProvider({ children }) {
     login,
     logout,
     setError,
+    setLoading,
     currentUser,
     loading,
     error
