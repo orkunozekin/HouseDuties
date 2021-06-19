@@ -3,23 +3,27 @@ import React, { useState } from 'react'
 import { Form, Button, Card, Alert } from "react-bootstrap"
 import axios from 'axios'
 
-import TodoForm from '../todo-form/TodoForm'
 import config from '../../config'
+import TokenService from '../../utility/TokenService'
 
 const HouseholdForm = () => {
   const [name, setName] = useState('')
   const [householdUsers, setHouseholdUsers] = useState([])
-  const [todos, setTodos] = useState([])
-  const [addingToDo, setAddingToDo] = useState(false)
 
-  const handleSubmitHousehold = (todo) => {
+  const handleSubmitHousehold = (ev) => {
+    ev.preventDefault()
+    console.log(TokenService.getUser('user'))
     axios({
       method: 'post',
       url: `${config.api}/household/newHousehold`,
       data: {
-        /**Household fields - create a household context*/
+        householdName: name.target.value,
+        householdAdmin: TokenService.getUser('user'),
+        householdUsers: [],
+        todos: []
       }
     })
+      .then(response => console.log(response))
   }
 
   return (
@@ -29,20 +33,8 @@ const HouseholdForm = () => {
           <Form onSubmit={handleSubmitHousehold}>
             <Form.Label>Household Name</Form.Label>
             <Form.Control onChange={setName} value={name.value} type='text' placeholder='give your household a name' required />
+            <Button type='submit'>Create Household</Button>
           </Form>
-          <ul>
-            {todos && todos.map((todo, index) => {
-              return <div>
-                <h4>Todos</h4>
-                <li key={index}>
-                  {todo.todoName}
-                </li>
-              </div>
-            })}
-          </ul>
-          <Button disabled={addingToDo} onClick={() => setAddingToDo(true)}>Add a new todo</Button>
-          {addingToDo && <TodoForm todos={todos} setAddingToDo={setAddingToDo} />}
-          {/**Create a context where we store field values from todoform and use them in "addTodo" method */}
         </Card.Body>
       </Card>
     </div>

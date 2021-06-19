@@ -8,7 +8,7 @@ import './NavigationBar.scss'
 
 const NavigationBar = () => {
 
-  const { logout, currentUser, loggedIn } = useAuth()
+  const { logout, currentUser } = useAuth()
 
   return (
     <section className="navbar-wrapper">
@@ -17,7 +17,7 @@ const NavigationBar = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            {loggedIn && currentUser ?
+            {currentUser ?
               <>
                 <Nav.Link href={"/user/profile/" + currentUser.userId}>{currentUser.userFullName}</Nav.Link>
                 <Nav.Link href="/user/home">Home</Nav.Link>

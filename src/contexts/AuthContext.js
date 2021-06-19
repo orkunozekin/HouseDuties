@@ -15,9 +15,8 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
 
-  const [currentUser, setCurrentUser] = useState()
+  const [currentUser, setCurrentUser] = useState({})
   const [error, setError] = useState('')
-  const [loggedIn, setLoggedIn] = useState(false)
   const [loading, setLoading] = useState(false)
 
   const history = useHistory()
@@ -39,6 +38,7 @@ export function AuthProvider({ children }) {
       .then(response => {
         console.log(response.data)
         setCurrentUser(response.data)
+        history.push('/')
       })
       .catch(error => console.log(error))
   }
@@ -55,7 +55,6 @@ export function AuthProvider({ children }) {
         if (response.data.userId && bcrypt.compareSync(password.value, response.data.userPassword) === true) {
           setCurrentUser(response.data)
           TokenService.saveUser(response.data)
-          setLoggedIn(true)
           setError('')
           setLoading(false)
           history.push('/home')
@@ -66,16 +65,20 @@ export function AuthProvider({ children }) {
       .catch(error => console.log(error))
   }
 
-  async function logout() {
+  function logout() {
     TokenService.clearAuthToken()
     setCurrentUser({})
-    setLoggedIn(false)
     history.push('/')
   }
 
 
   useEffect(() => {
-    setError('')
+    console.log(TokenService.getUser('user'));
+    const unsubscribe = () => {
+      setCurrentUser(TokenService.getUser('user'))
+      setError('')
+    }
+    return unsubscribe
   }, []);
 
 
@@ -85,7 +88,6 @@ export function AuthProvider({ children }) {
     logout,
     setError,
     currentUser,
-    loggedIn,
     loading,
     error
   }

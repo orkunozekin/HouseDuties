@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { Form, Button, Alert } from 'react-bootstrap'
 import { Link } from "react-router-dom"
@@ -12,7 +12,7 @@ import './LoginForm.scss'
 const LoginForm = () => {
 
 
-  const { login, error, loading } = useAuth()
+  const { login, error, loading, currentUser } = useAuth()
 
   //state
   const [email, setEmail] = useState({ value: '', touched: false })
@@ -26,6 +26,10 @@ const LoginForm = () => {
   const updatePassword = (password) => {
     setPassword({ value: password, touched: true })
   }
+
+  useEffect(() => {
+    currentUser && setEmail({ value: currentUser.userEmail })
+  }, [])
 
 
   return (
