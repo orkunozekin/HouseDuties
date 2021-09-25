@@ -15,32 +15,43 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
 
-  const [currentUser, setCurrentUser] = useState()
+  const [currentUser, setCurrentUser] = useState({})
   const [error, setError] = useState('')
   const [loggedIn, setLoggedIn] = useState(false)
   const [loading, setLoading] = useState(false)
 
   const history = useHistory()
 
-  async function register(ev, email, password, fullName) {
-    console.log(password.target.value);
+  async function register(ev, email, password, fullName, verifyPassword) {
+    console.log("password: ", password)
+    console.log("email: ", email)
+    console.log("fullName: ", fullName)
     ev.preventDefault()
-    let salt = bcrypt.genSaltSync(10)
-    let hash = bcrypt.hashSync(password.target.value, salt)
-    await axios({
-      method: 'post',
-      url: `${config.api}/user/createNewUser`,
-      data: {
-        userEmail: email.target.value,
-        userFullName: fullName.target.value,
-        userPassword: hash,
-      }
-    })
-      .then(response => {
-        console.log(response.data)
-        setCurrentUser(response.data)
+    if (verifyPassword !== password) {
+      setError('Passwords do not match')
+    } else {
+      setError('')
+      setLoading(true)
+      let salt = bcrypt.genSaltSync(10)
+      let hash = bcrypt.hashSync(password, salt)
+      await axios({
+        method: 'post',
+        url: `${config.api}/user/createNewUser`,
+        data: {
+          email: email,
+          fullName: fullName,
+          password: hash,
+        }
       })
-      .catch(error => console.log(error))
+        .then(response => {
+          console.log(response.data)
+          setLoading(false)
+          setCurrentUser(response.data)
+          history.push('/')
+        })
+        .catch(error => console.log(error))
+    }
+
   }
 
   async function login(ev, email, password) {
@@ -48,22 +59,23 @@ export function AuthProvider({ children }) {
     setLoading(true)
     await axios({
       method: 'post',
-      url: `${config.api}/user/login?email=${email.value}`
+      url: `${config.api}/user/login?email=${email}`
     })
       .then((response) => {
-        console.log(response.data);
-        if (response.data.userId && bcrypt.compareSync(password.value, response.data.userPassword) === true) {
+        if (response.data.id && bcrypt.compareSync(password, response.data.password) === true) {
           setCurrentUser(response.data)
           TokenService.saveUser(response.data)
           setLoggedIn(true)
           setError('')
-          setLoading(false)
           history.push('/home')
         } else {
           setError('Your email address and password combination is incorrect!')
         }
+        setLoading(false)
       })
-      .catch(error => console.log(error))
+      .catch(error => {
+        setError(error)
+      })
   }
 
   async function logout() {

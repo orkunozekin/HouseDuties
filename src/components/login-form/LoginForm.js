@@ -15,17 +15,9 @@ const LoginForm = () => {
   const { login, error, loading } = useAuth()
 
   //state
-  const [email, setEmail] = useState({ value: '', touched: false })
-  const [password, setPassword] = useState({ value: '', touched: false })
 
-  //Update the values of the state properties to trigger at the "onChange" attributes of the inputs.
-  const updateEmail = (email) => {
-    setEmail({ value: email, touched: true })
-  }
-
-  const updatePassword = (password) => {
-    setPassword({ value: password, touched: true })
-  }
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
 
   return (
@@ -34,14 +26,14 @@ const LoginForm = () => {
         {error && <Alert variant='danger'>{error}</Alert>}
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" name="email" value={email.value}
-            placeholder="Enter email" onChange={e => updateEmail(e.target.value)} />
+          <Form.Control type="email" name="email" value={email}
+            placeholder="Enter email" onChange={e => setEmail(e.target.value)} />
         </Form.Group>
 
         <Form.Group controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" name="password" value={password.value}
-            placeholder="Password" onChange={e => updatePassword(e.target.value)} />
+          <Form.Control type="password" name="password" value={password}
+            placeholder="Password" onChange={e => setPassword(e.target.value)} />
         </Form.Group>
         <Link to="/registration">Don't have an account?</Link><br /> <br />
         <Link to="/email-reset-password">Reset password</Link><br /> <br />

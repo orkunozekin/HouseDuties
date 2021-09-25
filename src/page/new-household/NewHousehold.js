@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 
-import HouseholdForm from '../../components/household-form/HouseholdForm'
-
+import HouseholdForm from '../../components/household-form/HouseHoldForm'
 import './NewHousehold.scss'
 
 const NewHousehold = () => {

@@ -11,6 +11,7 @@ import PrivateRoute from './utility/PrivateRoute'
 import './App.scss'
 import NewHousehold from './page/new-household/NewHousehold'
 import { AuthProvider } from './contexts/AuthContext'
+import { HouseholdProvider } from './contexts/HouseholdContext'
 
 
 function App() {
@@ -19,13 +20,15 @@ function App() {
   return (
     <div className='app'>
       <AuthProvider>
-        <NavigationBar />
-        <Switch>
-          <Route exact path='/' component={Login} />
-          <Route exact path='/registration' component={Registration} />
-          <PrivateRoute exact path='/home' component={Home} />
-          <PrivateRoute exact path='/newHousehold' component={NewHousehold} />
-        </Switch>
+        <HouseholdProvider>
+          <NavigationBar />
+          <Switch>
+            <Route exact path='/' component={Login} />
+            <Route exact path='/registration' component={Registration} />
+            <PrivateRoute exact path='/home' component={Home} />
+            <PrivateRoute exact path='/newHousehold' component={NewHousehold} />
+          </Switch>
+        </HouseholdProvider>
       </AuthProvider>
     </div>
   );

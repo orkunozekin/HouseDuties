@@ -17,7 +17,7 @@ const Home = () => {
 
   return (
     <div className='home-wrapper'>
-      {currentUser.usersAdminHousehold !== null ?
+      {currentUser.household !== null ?
         <h2>Your household</h2>
         :
         <Link to='/newHousehold'>Create a household</Link>

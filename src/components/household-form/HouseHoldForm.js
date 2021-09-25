@@ -5,30 +5,24 @@ import axios from 'axios'
 
 import TodoForm from '../todo-form/TodoForm'
 import config from '../../config'
+import { useHouseholdContext } from '../../contexts/HouseholdContext'
 
 const HouseholdForm = () => {
   const [name, setName] = useState('')
-  const [householdUsers, setHouseholdUsers] = useState([])
-  const [todos, setTodos] = useState([])
-  const [addingToDo, setAddingToDo] = useState(false)
 
-  const handleSubmitHousehold = (todo) => {
-    axios({
-      method: 'post',
-      url: `${config.api}/household/newHousehold`,
-      data: {
-        /**Household fields - create a household context*/
-      }
-    })
-  }
+
+  const { todos, handleSubmitHousehold, addingToDo, setAddingToDo } = useHouseholdContext()
+
+
 
   return (
     <div className='new-household-wrapper'>
       <Card>
         <Card.Body>
-          <Form onSubmit={handleSubmitHousehold}>
+          <Form onSubmit={e => handleSubmitHousehold(e, name)}>
             <Form.Label>Household Name</Form.Label>
-            <Form.Control onChange={setName} value={name.value} type='text' placeholder='give your household a name' required />
+            <Form.Control onChange={e => setName(e.target.value)} value={name} type='text' placeholder='give your household a name' required />
+            <Button type="submit">Submit</Button>
           </Form>
           <ul>
             {todos && todos.map((todo, index) => {
@@ -40,8 +34,9 @@ const HouseholdForm = () => {
               </div>
             })}
           </ul>
-          <Button disabled={addingToDo} onClick={() => setAddingToDo(true)}>Add a new todo</Button>
-          {addingToDo && <TodoForm todos={todos} setAddingToDo={setAddingToDo} />}
+          {/* <Button disabled={addingToDo} onClick={() => setAddingToDo(true)}>Add a new todo</Button> */}
+
+          {/* {addingToDo && <TodoForm todos={todos} setAddingToDo={setAddingToDo} />} */}
           {/**Create a context where we store field values from todoform and use them in "addTodo" method */}
         </Card.Body>
       </Card>
