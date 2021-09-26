@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 
+import { useQuery } from 'react-query'
 import { useHistory } from 'react-router-dom'
 import axios from 'axios'
 import bcrypt from 'bcryptjs'
@@ -22,10 +23,11 @@ export function AuthProvider({ children }) {
 
   const history = useHistory()
 
+  const { data, status } = useQuery('register', register)
+  console.log("data: ", data);
+
+
   async function register(ev, email, password, fullName, verifyPassword) {
-    console.log("password: ", password)
-    console.log("email: ", email)
-    console.log("fullName: ", fullName)
     ev.preventDefault()
     if (verifyPassword !== password) {
       setError('Passwords do not match')
@@ -48,6 +50,7 @@ export function AuthProvider({ children }) {
           setLoading(false)
           setCurrentUser(response.data)
           history.push('/')
+          return response
         })
         .catch(error => console.log(error))
     }
