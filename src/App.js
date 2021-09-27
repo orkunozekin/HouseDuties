@@ -12,6 +12,7 @@ import './App.scss'
 import NewHousehold from './page/new-household/NewHousehold'
 import { AuthProvider } from './contexts/AuthContext'
 import { HouseholdProvider } from './contexts/HouseholdContext'
+import NewTodo from './page/new-todo/NewTodo'
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
             <Route exact path='/registration' component={Registration} />
             <PrivateRoute exact path='/home' component={Home} />
             <PrivateRoute exact path='/newHousehold' component={NewHousehold} />
+            <PrivateRoute exact path='/newTodo' component={NewTodo} />
           </Switch>
         </HouseholdProvider>
       </AuthProvider>

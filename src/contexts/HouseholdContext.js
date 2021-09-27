@@ -4,6 +4,8 @@ import axios from 'axios'
 import config from '../config'
 import TokenService from '../utility/TokenService'
 import { useHistory } from 'react-router'
+import { useAuth } from './AuthContext'
+import { restElement } from '@babel/types'
 
 const HouseholdContext = React.createContext()
 
@@ -13,6 +15,8 @@ export function useHouseholdContext() {
 
 export const HouseholdProvider = ({ children }) => {
 
+  const { setCurrentUser, currentUser } = useAuth()
+
   let history = useHistory()
 
   const [todos, setTodos] = useState([])
@@ -21,8 +25,6 @@ export const HouseholdProvider = ({ children }) => {
 
   const handleSubmitHousehold = async (e, name) => {
     e.preventDefault()
-    console.log("name:", name);
-    console.log("userTokS:", TokenService.getUser());
     await axios({
       method: 'post',
       url: `${config.api}/household/newHousehold`,
@@ -34,7 +36,9 @@ export const HouseholdProvider = ({ children }) => {
       }
     })
       .then(res => {
-        console.log(res.data);
+        console.log(res.data)
+        setCurrentUser({ ...currentUser, household: res.data })
+        TokenService.saveUser({ ...currentUser, household: res.data })
         history.push('/home')
       })
       .catch(err => console.log(err))

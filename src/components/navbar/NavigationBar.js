@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { Navbar, Nav } from 'react-bootstrap'
 
 import { useAuth } from '../../contexts/AuthContext'
+import TokenService from '../../utility/TokenService'
 
 import './NavigationBar.scss'
 
 const NavigationBar = () => {
 
   const { logout, currentUser, loggedIn } = useAuth()
+
 
   return (
     <section className="navbar-wrapper">
@@ -17,7 +19,7 @@ const NavigationBar = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            {loggedIn && currentUser !== null ?
+            {TokenService.hasAuthToken() ?
               <>
                 <Nav.Link href={"/user/profile/" + currentUser.userId}>{currentUser.fullName}</Nav.Link>
                 <Nav.Link href="/home">Home</Nav.Link>

@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
 
-import { useQuery } from 'react-query'
 import { useHistory } from 'react-router-dom'
 import axios from 'axios'
 import bcrypt from 'bcryptjs'
@@ -23,8 +22,6 @@ export function AuthProvider({ children }) {
 
   const history = useHistory()
 
-  const { data, status } = useQuery('register', register)
-  console.log("data: ", data);
 
 
   async function register(ev, email, password, fullName, verifyPassword) {
@@ -50,11 +47,9 @@ export function AuthProvider({ children }) {
           setLoading(false)
           setCurrentUser(response.data)
           history.push('/')
-          return response
         })
         .catch(error => console.log(error))
     }
-
   }
 
   async function login(ev, email, password) {
@@ -93,12 +88,18 @@ export function AuthProvider({ children }) {
     setError('')
   }, []);
 
+  useEffect(() => {
+    setCurrentUser(TokenService.getUser())
+  }, []);
+
+
 
   const value = {
     register,
     login,
     logout,
     setError,
+    setCurrentUser,
     currentUser,
     loggedIn,
     loading,
