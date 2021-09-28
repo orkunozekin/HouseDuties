@@ -5,7 +5,6 @@ import config from '../config'
 import TokenService from '../utility/TokenService'
 import { useHistory } from 'react-router'
 import { useAuth } from './AuthContext'
-import { restElement } from '@babel/types'
 
 const HouseholdContext = React.createContext()
 
@@ -19,9 +18,7 @@ export const HouseholdProvider = ({ children }) => {
 
   let history = useHistory()
 
-  const [todos, setTodos] = useState([])
   const [householdUsers, setHouseholdUsers] = useState([])
-  const [addingToDo, setAddingToDo] = useState(false)
 
   const handleSubmitHousehold = async (e, name) => {
     e.preventDefault()
@@ -31,7 +28,7 @@ export const HouseholdProvider = ({ children }) => {
       data: {
         /**Household fields - create a household context*/
         name: name,
-        todos: [],
+        tasks: [],
         users: [TokenService.getUser()]
       }
     })
@@ -47,11 +44,7 @@ export const HouseholdProvider = ({ children }) => {
   const value = {
     handleSubmitHousehold,
     setHouseholdUsers,
-    setAddingToDo,
-    setTodos,
     householdUsers,
-    todos,
-    addingToDo,
   }
 
   return (

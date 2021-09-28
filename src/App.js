@@ -12,7 +12,8 @@ import './App.scss'
 import NewHousehold from './page/new-household/NewHousehold'
 import { AuthProvider } from './contexts/AuthContext'
 import { HouseholdProvider } from './contexts/HouseholdContext'
-import NewTodo from './page/new-todo/NewTodo'
+import NewTask from './page/new-task/NewTask'
+import { TaskProvider } from './contexts/TaskContext'
 
 
 function App() {
@@ -22,14 +23,16 @@ function App() {
     <div className='app'>
       <AuthProvider>
         <HouseholdProvider>
-          <NavigationBar />
-          <Switch>
-            <Route exact path='/' component={Login} />
-            <Route exact path='/registration' component={Registration} />
-            <PrivateRoute exact path='/home' component={Home} />
-            <PrivateRoute exact path='/newHousehold' component={NewHousehold} />
-            <PrivateRoute exact path='/newTodo' component={NewTodo} />
-          </Switch>
+          <TaskProvider>
+            <NavigationBar />
+            <Switch>
+              <Route exact path='/' component={Login} />
+              <Route exact path='/registration' component={Registration} />
+              <PrivateRoute exact path='/home' component={Home} />
+              <PrivateRoute exact path='/newHousehold' component={NewHousehold} />
+              <PrivateRoute exact path='/newTask' component={NewTask} />
+            </Switch>
+          </TaskProvider>
         </HouseholdProvider>
       </AuthProvider>
     </div>

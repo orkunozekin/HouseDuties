@@ -13,7 +13,7 @@ export function useAuth() {
   return useContext(AuthContext)
 }
 
-export function AuthProvider({ children }) {
+export const AuthProvider = ({ children }) => {
 
   const [currentUser, setCurrentUser] = useState({})
   const [error, setError] = useState('')
